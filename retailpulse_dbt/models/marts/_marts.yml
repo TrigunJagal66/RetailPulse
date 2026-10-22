@@ -1,0 +1,107 @@
+version: 2
+
+models:
+
+  # --------------------------------------------------------
+  # Economy Dimension
+  # --------------------------------------------------------
+
+  - name: dim_country
+    description: >
+      One row per World Bank economy represented in the
+      RetailPulse dataset.
+
+    columns:
+
+      - name: country_iso3
+        description: >
+          3-letter ISO country code identifying the economy.
+        tests:
+          - unique
+          - not_null
+
+      - name: country_name
+        description: >
+          Name of the World Bank economy.
+        tests:
+          - not_null
+
+
+  # --------------------------------------------------------
+  # Indicator Dimension
+  # --------------------------------------------------------
+
+  - name: dim_indicator
+    description: >
+      One row per World Bank indicator used in RetailPulse.
+
+    columns:
+
+      - name: indicator_code
+        description: >
+          World Bank indicator code identifying the indicator.
+        tests:
+          - unique
+          - not_null
+
+      - name: indicator_name
+        description: >
+          Human-readable World Bank indicator name.
+        tests:
+          - not_null
+
+
+  # --------------------------------------------------------
+  # Indicator Fact Table
+  # --------------------------------------------------------
+
+  - name: fact_indicator_value
+    description: >
+      One row per economy/indicator/year observation.
+      Grain: country_iso3 + indicator_code + year.
+
+    columns:
+
+      - name: country_iso3
+        description: >
+          Foreign key to dim_country.
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_country')
+              field: country_iso3
+
+      - name: indicator_code
+        description: >
+          Foreign key to dim_indicator.
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_indicator')
+              field: indicator_code
+
+      - name: year
+        description: >
+          Calendar year of the observation.
+        tests:
+          - not_null
+
+      - name: value
+        description: >
+          Indicator value for the economy and year.
+
+      - name: run_id
+        description: >
+          Identifier of the ingestion run that produced the record.
+
+      - name: source
+        description: >
+          Original source of the observation.
+
+      - name: extracted_at_utc
+        description: >
+          UTC timestamp when the observation was extracted.
+
+      - name: loaded_at
+        description: >
+          Timestamp when the observation was loaded into Snowflake.

@@ -1,0 +1,31 @@
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+secrets/
+credentials/
+
+# Python cache
+__pycache__/
+*.py[cod]
+
+# Logs
+logs/
+*.log
+
+# dbt generated files
+target/
+dbt_packages/
+
+# IDE and OS files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

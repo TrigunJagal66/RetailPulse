@@ -1,0 +1,62 @@
+version: 2
+
+sources:
+  - name: raw
+    database: RETAILPULSE
+    schema: RAW
+
+    tables:
+      - name: indicator_values
+
+        description: >
+          Raw World Bank indicator data landed by the RetailPulse
+          Python ingestion pipeline.
+          Grain: one row per economy/indicator/year/ingestion run.
+
+        columns:
+
+          - name: country_name
+            description: >
+              Economy name returned by the World Bank API.
+
+          - name: country_iso3
+            description: >
+              3-letter ISO country code.
+
+          - name: indicator_code
+            description: >
+              World Bank indicator code identifying the economic,
+              demographic, social, or environmental indicator.
+
+          - name: indicator_name
+            description: >
+              Human-readable indicator name associated with the
+              World Bank indicator code.
+
+          - name: year
+            description: >
+              Calendar year of the observation.
+
+          - name: value
+            description: >
+              Indicator value for the economy/year.
+              Nullable because the World Bank may not provide
+              an observation for every economy/year.
+
+          - name: run_id
+            description: >
+              Unique identifier for the Python ingestion run
+              that produced the record.
+
+          - name: source
+            description: >
+              Original source of the ingested data.
+
+          - name: extracted_at_utc
+            description: >
+              UTC timestamp when the data was extracted
+              from the World Bank API.
+
+          - name: loaded_at
+            description: >
+              Timestamp when the record was loaded into Snowflake.
